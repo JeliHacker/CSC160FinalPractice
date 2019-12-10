@@ -1,3 +1,4 @@
+/*
 var names = ["bob", "fred", "cobra", "dog", "zebra"];
 
 var colorScale = d3.scaleOrdinal(d3.schemeTableau10); 
@@ -76,4 +77,44 @@ var setup = function(array2D)
         })
         .attr("style", "fill:black")
 }
+*/
+//d3.select("body *")
+//    .remove()
 
+var apiPromise = d3.json("fairyAPI.json")
+
+apiPromise.then
+(
+    function(data)
+    {
+        var goodTable = d3.select("body")
+            .append("table")
+            .attr("id", "infoTable")
+        
+        var rows = goodTable.selectAll("tr")
+            .data(data)
+            .enter()
+            .append("tr")
+        
+        
+            rows.selectAll("td")
+            .data(data)
+            .enter()
+            .append("td")
+            .text(function(fairy)
+                 {
+            return fairy.name
+        })
+            .append("td")
+            .text(function(fairy)
+                 {
+                return fairy.description
+            })
+            
+    },
+    function(err)
+    {
+        console.log('err', err)
+    }
+)
+    
